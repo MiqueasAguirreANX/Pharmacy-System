@@ -1,0 +1,26 @@
+###
+GET http://localhost:4580/api
+
+###
+POST http://localhost:4580/api
+content-type: application/json
+
+{
+    "cod_cliente" :  3,
+    "fecha" :  "21/02/2021",
+    "servicio" :  "Servicio 3",
+    "nombre_cliente" : "Cliente 3",
+    "telefono" :  "44484551",
+    "observaciones" :  "Observacion 3",
+    "costo_proveedor" :  0,
+    "costo" :  522,
+    "senia" :  322,
+    "falta_abonar" : 200,
+    "colaborador" :  "Jorge",
+    "estado" :  "Abierto",
+    "estado_actual" :  "No entregado",
+    "entregado_prov" :  "No"
+}
+
+###
+GET http://localhost:4580/api/clientes/Alicia_Abadu

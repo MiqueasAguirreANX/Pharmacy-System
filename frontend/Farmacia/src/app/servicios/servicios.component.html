@@ -1,0 +1,26 @@
+<div class="container has-shadow m-4">
+    <div class="columns has-shadow">
+      <div class="column has-text-centered">
+        <div class="container m-6">
+          <div class="field has-addons has-text-centered">
+            <div class="control">
+              <input class="input is-warning" #i_agregar_servicio type="text" placeholder="Agregar servicio">
+            </div>
+            <div class="control">
+              <a class="button is-warning" (click)="agregarServicio(i_agregar_servicio)">
+                Agregar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column has-text-centered">
+          <article class="message is-warning" *ngFor="let serv of servicios">
+            <div class="message-header">
+              <p>{{serv.servicio}}</p>
+              <button class="delete" (click)="eliminarServicio(serv.id)" aria-label="delete"></button>
+            </div>
+          </article>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="container has-shadow m-4">
+    <div class="columns has-shadow">
+      <div class="column has-text-centered">
+        <div class="container m-6">
+          <div class="field has-addons has-text-centered">
+            <div class="control">
+              <input class="input is-info" #i_agregar_colaborador type="text" placeholder="Agregar colaborador">
+            </div>
+            <div class="control">
+              <a class="button is-info" (click)="agregarColaborador(i_agregar_colaborador)">
+                Agregar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column has-text-centered">
+          <article class="message is-info" *ngFor="let col of colaboradores; let i=index">
+            <div class="message-header">
+              <p>Colaborador  {{i+1}} -- {{col.nombre}}</p>
+              <button class="delete" (click)="eliminarColaborador(col.Id)" aria-label="delete"></button>
+            </div>
+          </article>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+__pycache__
+.idea
+assets
+build
+dist
+frontend/Farmacia/node_modules
+server/node_modules

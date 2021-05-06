@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="columns">
+        <div class="column">
+            <div class="container mt-6">
+                <article class="panel is-success">
+                    <p class="panel-heading">
+                      Estadisticas
+                    </p>
+                    <a class="panel-block" (click)="setVerBarColaborador()">
+                      <span class="panel-icon">
+                        <i class="fas fa-info" aria-hidden="true"></i>
+                      </span>
+                      Colaboradores
+                    </a>
+                    <a class="panel-block" (click)="setVerBarGanancia()">
+                      <span class="panel-icon">
+                        <i class="fas fa-info" aria-hidden="true"></i>
+                      </span>
+                      Ganancia mensual
+                    </a>
+                    <a class="panel-block" (click)="setVerBarCliente()">
+                      <span class="panel-icon">
+                        <i class="fas fa-info" aria-hidden="true"></i>
+                      </span>
+                      Maximos compradores
+                    </a>
+                </article>
+            </div>
+        </div>
+        <div class="column is-three-fifths">
+            <app-barchart *ngIf="verBarColaborador"></app-barchart>
+            <app-ganancia *ngIf="verBarGanancia"></app-ganancia>
+            <app-ganancia-cliente *ngIf="verBarCliente"></app-ganancia-cliente>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+.has-background-orange {
+    background-color: #ee8833;
+}
+
+td {
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+th {
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+thead {
+    background-color: #EAEDED;
+}
+
+tfoot {
+    background-color: #EAEDED;
+}
+
+.nav-bottom th {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.nav-bottom th:nth-child(2) {
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.nav-bottom th:nth-child(3) {
+    padding-right: 82px;
+    padding-left: 82px;
+}
+
+.nav-bottom th:nth-child(4) {
+    padding-right: 57px;
+    padding-left: 57px;
+}
+
+.nav-bottom th:nth-child(11) {
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.nav-bottom th:nth-child(12) {
+    padding-right: 26px;
+    padding-left: 26px;
+}
+
+.nav-bottom th:nth-child(14) {
+    padding-right: 26px;
+    padding-left: 26px;
+}

@@ -1,0 +1,773 @@
+<div class="container" style="display: flex; align-items: center; flex-direction: column; justify-content: center;">
+  <div class="columns mt-2">
+    <div class="column">
+      <button class="button is-primary is-outlined" (click)="setAgregarProtocolo()">Agregar protocolo</button>
+    </div>
+    <div class="column">
+      <button class="button is-info is-outlined" (click)="setVerProtocolos()">Ver protocolos</button>
+    </div>
+    <div class="column">
+      <button class="button is-warning is-outlined" (click)="setBuscarProtocolos()">Buscar protocolo</button>
+    </div>
+  </div>
+  
+  <div class="card m-4 p-4" *ngIf="verProtocolos" style="background-color: #EAEDED;">
+    <div class="is-centered">
+        <ul class="pagination-list" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+          <li *ngFor="let _i of listaNumeros()" >
+            <a class="button has-background-success has-text-white-bis m-2" style="border-radius: 50%;" (click)="setActualVerProtocolo(_i)">
+              {{_i + 1}}
+            </a>
+          </li>
+        </ul>
+    </div>
+    
+  </div>
+
+  <table class="table is-bordered my-4" *ngIf="verProtocolos" style="padding-bottom: 50px!important; margin-bottom: 50px!important;">
+        
+        <thead>
+          <tr>
+            <th class="has-text-centered">N°Prot</th>
+            <th class="has-text-centered">Fecha.Creado</th>
+            <th class="has-text-centered">Cliente</th>
+            <th class="has-text-centered">Servicio</th>
+            <th class="has-text-centered">Costo Proveedor</th>
+            <th class="has-text-centered">Deposito</th>
+            <th class="has-text-centered">Costo</th>
+            <th class="has-text-centered">Seña</th>
+            <th class="has-text-centered">Falta</th>
+            <th class="has-text-centered">Pago</th>
+            <th class="has-text-centered">Colaborador</th>
+            <th class="has-text-centered">Delivery</th>
+            
+            <th class="has-text-centered">Estado</th>
+            <th class="has-text-centered">Fecha. Vencimiento</th>
+            <th class="has-text-centered">Entregado Proveedor</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th class="has-text-centered">N°Prot</th>
+            <th class="has-text-centered">Fecha.Creado</th>
+            <th class="has-text-centered">Cliente</th>
+            <th class="has-text-centered">Servicio</th>
+            <th class="has-text-centered">Costo Proveedor</th>
+            <th class="has-text-centered">Deposito</th>
+            <th class="has-text-centered">Costo</th>
+            <th class="has-text-centered">Seña</th>
+            <th class="has-text-centered">Falta</th>
+            <th class="has-text-centered">Pago</th>
+            <th class="has-text-centered">Colaborador</th>
+            <th class="has-text-centered">Delivery</th>
+            
+            <th class="has-text-centered">Estado</th>
+            <th class="has-text-centered">Fecha. Vencimiento</th>
+            <th class="has-text-centered">Entregado Proveedor</th>
+          </tr>
+        </tfoot>
+        <tbody>
+          <tr *ngFor="let item of actualVerProtocolos; let i=index">
+            <td class="has-text-centered">{{ item.nro_protocolo }}</td>
+            <td class="has-text-centered">{{ item.fecha }}</td>
+            <td class="has-text-centered">
+              <div class="block" style="display: flex;flex-direction: row; align-items: center; border: none; vertical-align: middle;">
+                <button class="button is-primary" (click)="setActualItem(item.nro_protocolo); setModal1()">
+                  <i class="fas fa-address-card" aria-hidden="true"></i>
+                </button>
+                <button class="button is-link" (click)="setActualItem(item.nro_protocolo); setModal2()">
+                  <i class="fas fa-edit" aria-hidden="true"></i>
+                </button>
+                <button class="button is-warning" (click)="setActualItem(item.nro_protocolo); descargarProtocolo()">
+                  <i class="fas fa-file-download" aria-hidden="true"></i>
+                </button>
+                <button class="button is-danger" (click)="deleteProtocolo(item.nro_protocolo, null, null)">
+                  <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                </button>
+              </div>
+              
+            </td>
+            <td class="has-text-centered">{{ item.servicio }}</td>
+            <td class="has-text-centered">${{ item.costo_proveedor }}</td>
+            <td class="has-text-centered">${{ item.deposito }}</td>
+            <td class="has-text-centered">${{ item.costo }}</td>
+            <td class="has-text-centered">${{ item.senia }}</td>
+            <td class="has-text-centered">${{ item.falta_abonar }}</td>
+            <td class="has-text-centered" [ngClass]="{'has-background-success': item.pagado == 'Si', 'has-background-danger has-text-white': item.pagado == 'No'}">{{ item.pagado }}</td>
+            
+            <td class="has-text-centered">{{ item.colaborador }}</td>
+            <td class="has-text-centered" [ngClass]="{'has-background-success': item.delivery == 'Si', 'has-background-danger has-text-white': item.delivery == 'No'}">{{ item.delivery }}</td>
+            <td class="has-text-centered" [ngClass]="{'has-background-success': item.estado == 'Abierto', 'has-background-danger has-text-white': item.estado == 'Cerrado', 'has-background-warning': item.estado == 'Suspendido','has-background-orange has-text-white': item.estado == 'En proceso', 'has-background-info has-text-white': item.estado == 'Presupuesto'}">{{ item.estado }}</td>
+            <td class="has-text-centered">{{ item.fecha_vencimiento }}</td>
+            <td class="has-text-centered" [ngClass]="{'has-background-success': item.entregado_prov == 'Si', 'has-background-danger has-text-white': item.entregado_prov == 'No'}">{{ item.entregado_prov }}</td>
+          </tr>
+        </tbody>
+  </table>
+  <div class="modal is-active" *ngIf="isActive">
+    <div class="modal-background" (click)="isActive=!isActive"></div>
+    <div class="modal-card">
+      <header class="modal-card-head has-background-success-dark">
+        <p class="modal-card-title has-text-white">{{ actualItem.nombre_cliente }} {{ actualItem.apellido_cliente }}</p>
+        <span class="icon has-text-white p-2 whatsapp-icon" (click)="whatsappCliente(actualItem.tel_celular)">
+          <i class="fab fa-2x fa-whatsapp"></i>
+        </span>
+      </header>
+      <section class="modal-card-body">
+        <div class="columns">
+          <div class="column has-text-centered">
+            <p class="my-2"><b>Telefono</b></p> <p>{{ actualItem.tel_fijo }}</p>
+            <p class="my-2"><b>Celular</b></p> <p>{{ actualItem.tel_celular }}</p>
+            <p class="my-2"><b>Email</b></p> <p>{{ actualItem.email }}</p>
+          </div>
+          <div class="column has-text-centered">
+            <p class="my-2"><b>Domicilio</b></p> <p>{{ actualItem.domicilio }}</p>
+            <p class="my-2"><b>DNI</b></p> <p>{{ actualItem.dni }}</p>
+            <p class="my-2"><b>CP</b></p> <p>{{ actualItem.cp }}</p>
+          </div>
+          <div class="column has-text-centered">
+            <p class="my-2"><b>Observaciones</b></p> <p>{{ actualItem.observaciones }}</p>
+            
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="modal is-active" *ngIf="isActiveEditar">
+    <div class="modal-background" (click)="isActiveEditar=false"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Protocolo {{ actualItem.nro_protocolo }}</p>
+        <button class="delete" aria-label="close"(click)="isActiveEditar=!isActiveEditar"></button>
+      </header>
+      <section class="modal-card-body">
+
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label">DNI</label>
+              <div class="control">
+                <input class="input" #i_dni_editar placeholder="Identificacion" value='{{ actualItem.dni }}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Nombre</label>
+              <div class="control">
+                <input class="input" #i_nombre_editar type="text" placeholder="Nombre" value='{{actualItem.nombre_cliente }}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Apellido</label>
+              <div class="control">
+                <input class="input" #i_apellido_editar  type="text" placeholder="Apellido" value='{{actualItem.apellido_cliente}}'>
+              </div>
+            </div>
+            
+            <div class="field">
+              <label class="label">Telefono fijo</label>
+              <div class="control">
+                <input class="input" #i_tel_fijo_editar type="tel" placeholder="Telefono fijo" value='{{actualItem.tel_fijo}}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Telefono celular</label>
+              <div class="control">
+                <input class="input" #i_tel_cel_editar  type="tel" placeholder="Telefono celular" value='{{actualItem.tel_celular}}'>
+              </div>
+            </div>
+            
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control">
+                <input class="input" #i_email_editar type="email" placeholder="Email" value='{{actualItem.email}}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Domicilio</label>
+              <div class="control">
+                <input class="input" #i_domicilio_editar type="text" placeholder="Domicilio" value='{{actualItem.domicilio}}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Entre</label>
+              <div class="control">
+                <input class="input" #i_entre_editar type="text" placeholder="Entre que calles" value='{{actualItem.entre_calles}}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">CP</label>
+              <div class="control">
+                <input class="input" #i_cp_editar  type="text" placeholder="Codigo postal" value='{{actualItem.cp}}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Servicios</label>
+              <div class="control">
+                <div class="select">
+                  <select #select_servicios_editar>
+                    <option *ngFor="let serv of servicios" [selected]="actualItem.servicio == serv.servicio">{{serv.servicio}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">Costo proveedor</label>
+              <div class="control">
+                <input class="input" #i_costo_proveedor_editar type="number" placeholder="Costo proveedor" value='{{actualItem.costo_proveedor}}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Deposito</label>
+              <div class="control">
+                <input class="input" #i_deposito_editar type="number" placeholder="Deposito" value='{{actualItem.deposito}}'>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Costo</label>
+              <div class="control">
+                <input class="input" #i_costo_editar type="number" placeholder="Costo" value='{{actualItem.costo}}'>
+              </div>
+            </div>
+            <label class="label">Seña</label>
+            <div class="field has-addons">
+              
+              <div class="control">
+                <input class="input" #i_senia_editar name="senia" type="number" placeholder="Seña" value='{{actualItem.senia}}'>
+              </div>
+              <div class="control" (click)="calcularFaltante(i_costo_editar, i_senia_editar)">
+                <a class="button is-warning">
+                  <i class="fas fa-calculator"></i>
+                </a>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Colaborador</label>
+              <div class="control">
+                <div class="select">
+                  <select #select_colaborador_editar>
+                    <option *ngFor="let col of colaboradores" [selected]="actualItem.colaborador == col.nombre">{{col.nombre}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Estado</label>
+              <div class="control">
+                <div class="select">
+                  <select #select_estado_editar>
+                    <option [selected]="actualItem.estado == 'Abierto'">Abierto</option>
+                    <option [selected]="actualItem.estado == 'Cerrado'">Cerrado</option>
+                    <option [selected]="actualItem.estado == 'En proceso'">En proceso</option>
+                    <option [selected]="actualItem.estado == 'Suspendido'">Suspendido</option>
+                    <option [selected]="actualItem.estado == 'Presupuesto'">Presupuesto</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <p class="my-2"><b>Entregado a proveedor</b></p>
+                <label class="radio">
+                  <input type="radio" name="1" #r_entregado_si_editar [checked]="actualItem.entregado_prov == 'Si'">
+                  Si
+                </label>
+                <label class="radio">
+                  <input type="radio" name="1" #r_entregado_no_editar [checked]="actualItem.entregado_prov == 'No'">
+                  No
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <p class="my-2"><b>Pagado</b></p>
+                <label class="radio">
+                  <input type="radio" name="2" #r_pagado_si_editar [checked]="actualItem.pagado == 'Si'">
+                  Si
+                </label>
+                <label class="radio">
+                  <input type="radio" name="2" #r_pagado_no_editar [checked]="actualItem.pagado == 'No'">
+                  No
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <p class="my-2"><b>Delivery</b></p>
+                <label class="radio">
+                  <input type="radio" name="3" #r_delivery_si_editar [checked]="actualItem.delivery == 'Si'">
+                  Si
+                </label>
+                <label class="radio">
+                  <input type="radio" name="3" #r_delivery_no_editar [checked]="actualItem.delivery == 'No'">
+                  No
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label my-2">Fecha Vto Garantia</label>
+              <div class="control">
+                <input class="input" #i_fecha_vencimiento_editar type="date" placeholder="Fecha vencimiento" value='{{actualItem.fecha_vencimiento.split("/")[2]}}-{{actualItem.fecha_vencimiento.split("/")[1]}}-{{actualItem.fecha_vencimiento.split("/")[0]}}'>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label class="label">Observaciones</label>
+          <div class="control">
+            <textarea class="textarea" #i_observaciones_editar placeholder="Observaciones" value='{{actualItem.observaciones}}'></textarea>
+          </div>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" (click)="cambiarProtocolo(i_dni_editar, i_nombre_editar, i_apellido_editar, i_tel_fijo_editar, i_tel_cel_editar, i_email_editar, i_domicilio_editar, i_entre_editar, i_cp_editar, select_servicios_editar, i_costo_proveedor_editar, i_deposito_editar, i_costo_editar, i_senia_editar, select_colaborador_editar, select_estado_editar, i_fecha_vencimiento_editar, r_entregado_si_editar, r_pagado_si_editar, r_delivery_si_editar, i_observaciones_editar)">Guardar cambios</button>
+        <button class="button" (click)="isActiveEditar = false">Cerrar</button>
+      </footer>
+    </div>
+  </div> 
+  <div class="container my-4" *ngIf="verAgregar">
+    <div class="columns">
+      <div class="column">
+
+        <div class="field">
+          <label class="label">Nombre</label>
+          <div class="control">
+            <input class="input" #i_nombre name="nombre" type="text" placeholder="Nombre">
+          </div>
+        </div>
+        <label class="label">Apellido</label>
+        <div class="field has-addons">
+          
+          <div class="control">
+            <input class="input" #i_apellido name="apellido" type="text" placeholder="Apellido">
+          </div>
+          <div class="control" (click)="buscarAnteriores(i_dni, i_nombre, i_apellido, i_tel_fijo, i_tel_cel, i_email, i_domicilio, i_entre, i_cp)">
+            <a class="button is-link">
+              <i class="fas fa-search"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label class="label">DNI</label>
+          <div class="control">
+            <input class="input" #i_dni name="Identificacion" type="text" placeholder="DNI">
+          </div>
+        </div>
+        
+        <div class="field">
+          <label class="label">Telefono fijo</label>
+          <div class="control">
+            <input class="input" #i_tel_fijo name="tel_fijo" type="tel" placeholder="Telefono fijo">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Telefono celular</label>
+          <div class="control">
+            <input class="input" #i_tel_cel name="tel_celular" type="tel" placeholder="Telefono celular">
+          </div>
+        </div>
+        
+      </div>
+      <div class="column">
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+            <input class="input" #i_email name="email" type="email" placeholder="Email">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Domicilio</label>
+          <div class="control">
+            <input class="input" #i_domicilio name="domicilio" type="text" placeholder="Domicilio">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Entre</label>
+          <div class="control">
+            <input class="input" #i_entre name="entre" type="text" placeholder="Entre que calles">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">CP</label>
+          <div class="control">
+            <input class="input" #i_cp name="cp" type="text" placeholder="Codigo postal">
+          </div>
+        </div>
+        
+        
+        
+      </div>
+      <div class="column">
+        <div class="field">
+          <label class="label">Costo proveedor</label>
+          <div class="control">
+            <input class="input" #i_costo_proveedor name="costo_proveedor" type="number" placeholder="Costo proveedor" >
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Deposito</label>
+          <div class="control">
+            <input class="input" #i_deposito type="number" placeholder="Deposito">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Costo</label>
+          <div class="control">
+            <input class="input" #i_costo name="costo" type="number" placeholder="Costo" [disabled]="estaPagado">
+          </div>
+        </div>
+
+        <label class="label">Seña</label>
+        <div class="field has-addons">
+          
+          <div class="control">
+            <input class="input" #i_senia name="senia" type="number" placeholder="Seña" [disabled]="estaPagado">
+          </div>
+          <div class="control" (click)="calcularFaltante(i_costo, i_senia)">
+            <a class="button is-warning">
+              <i class="fas fa-calculator"></i>
+            </a>
+          </div>
+        </div>
+
+        
+        
+        
+        
+      </div>
+      <div class="column">
+        <div class="field">
+          <label class="label">Colaborador</label>
+          <div class="control">
+            <div class="select">
+              <select #select_colaborador>
+                <option *ngFor="let col of colaboradores">{{col.nombre}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Estado</label>
+          <div class="control">
+            <div class="select">
+              <select #select_estado>
+                <option>Abierto</option>
+                <option>Cerrado</option>
+                <option>En proceso</option>
+                <option>Suspendido</option>
+                <option>Presupuesto</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Servicios</label>
+          <div class="control">
+            <div class="select">
+              <select #select_servicios>
+                <option *ngFor="let serv of servicios">{{serv.servicio}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="column is-one-fifth">
+        <nav class="panel">
+          <p class="panel-heading">
+            Anteriores
+          </p>
+          <a class="panel-block" *ngFor="let ant of anteriores">
+            <span class="panel-icon has-text-info" (click)="infoProtocolo(ant)">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <p>{{ ant.fecha }}</p>
+          </a>
+        </nav>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <div class="field">
+          <div class="control">
+            <p class="my-2"><b>Entregado a proveedor</b></p>
+            <label class="radio">
+              <input type="radio" #r_entregado_si name="entregado_proveedor">
+              Si
+            </label>
+            <label class="radio">
+              <input type="radio" #r_entregado_no name="entregado_proveedor" checked>
+              No
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <div class="control">
+            <p class="my-2"><b>Pagado</b></p>
+            <label class="radio">
+              <input type="radio" #r_pagado_si name="pagado" (click)="estaPagado = true; r_pagado_si.checked = true">
+              Si
+            </label>
+            <label class="radio">
+              <input type="radio" #r_pagado_no name="pagado" (click)="estaPagado = false; r_pagado_no.checked = true" checked>
+              No
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <div class="control">
+            <p class="my-2"><b>Delivery</b></p>
+            <label class="radio">
+              <input type="radio" #r_delivery_si name="delivery">
+              Si
+            </label>
+            <label class="radio">
+              <input type="radio" #r_delivery_no name="delivery" checked>
+              No
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="column">
+        <div class="field">
+          <label class="label my-2">Fecha Vto Garantia</label>
+          <div class="control">
+            <input class="input" #i_fecha_vencimiento name="fecha_vencimiento" type="date" placeholder="Fecha vencimiento">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label class="label">Observaciones</label>
+      <div class="control">
+        <textarea class="textarea" #i_observaciones placeholder="Observaciones"></textarea>
+      </div>
+    </div>
+    
+    
+    
+    <div class="field is-grouped is-grouped-centered">
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox" #checkObservaciones checked>
+          Mostrar observaciones
+        </label>
+      </div>
+      
+      <div class="control">
+        <button class="button is-success is-outlined" (click)="agregarProtocolo(i_dni, i_nombre, i_apellido, i_tel_fijo, i_tel_cel, i_email, i_domicilio, i_entre, i_cp, select_servicios, i_costo_proveedor, i_deposito, i_costo, i_senia, select_colaborador, select_estado, i_fecha_vencimiento, r_entregado_si, r_pagado_si, r_delivery_si, i_observaciones, checkObservaciones)">Agregar</button>
+      </div>
+    </div>
+  </div>
+  <div class="container my-4" *ngIf="verBuscar">
+    <div class="columns has-shadow">
+      <div class="column">
+        <div class="field">
+          <label class="label">Buscar por</label>
+          <div class="control">
+            <div class="select">
+              <select name="buscar_por" #selectBuscar>
+                <option selected>Numero protocolo</option>
+                <option>Fecha</option>
+                <option>Nombre</option>
+                <option>Apellido</option>
+                <option>Estado</option>
+                <option>DNI</option>
+                <option>Observaciones</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <label class="label">Criterio</label>
+        <div class="field has-addons">
+          
+          <div class="control">
+            <input class="input" type="text" #criterioBuscar placeholder="Criterio"
+            (keyup.enter)="buscarPor(selectBuscar, criterioBuscar)">
+          </div>
+          <div class="control" (click)="buscarPor(selectBuscar, criterioBuscar)">
+            <a class="button is-link" >
+              <i class="fas fa-search"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <label class="label">Cambiar estado</label>
+          <div class="field has-addons">
+            <div class="control">
+              <div class="select">
+                <select name="cambiar_estadp" #selectCambiarEstado [disabled]="puedeCambiar">
+                  <option>Abierto</option>
+                  <option>Cerrado</option>
+                  <option>En proceso</option>
+                  <option>Suspendido</option>
+                  <option>Presupuesto</option>
+                </select>
+              </div>
+            </div>
+            <div class="control">
+              <button type="submit" class="button is-link" [disabled]="puedeCambiar" (click)="cambiarEstadoBuscado(selectCambiarEstado)">Cambiar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <label class="label">Cambiar pagado</label>
+          <div class="field has-addons">
+            <div class="control">
+              <div class="select">
+                <select name="cambiar_estadp" #selectCambiarPagado [disabled]="puedeCambiar">
+                  <option>Si</option>
+                  <option>No</option>
+                </select>
+              </div>
+            </div>
+            <div class="control">
+              <button type="submit" class="button is-link" [disabled]="puedeCambiar" (click)="cambiarPagadoBuscado(selectCambiarPagado)">Cambiar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <table class="table is-bordered">
+      <thead>
+        <tr>
+          <th>Prot</th>
+          <th>Fecha.Creado</th>
+          <th>Cliente</th>
+          <th>Servicio</th>
+          <th>Costo Proveedor</th>
+          <th>Deposito</th>
+          <th>Costo</th>
+          <th>Seña</th>
+          <th>Falta</th>
+          <th>Pago</th>
+          <th>Delivery</th>
+          <th>Colaborador</th>
+          <th>Estado</th>
+          <th>Fecha. Vencimiento</th>
+          <th>Entregado Proveedor</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>Prot</th>
+          <th>Fecha.Creado</th>
+          <th>Cliente</th>
+          <th>Servicio</th>
+          <th>Costo Proveedor</th>
+          <th>Deposito</th>
+          <th>Costo</th>
+          <th>Seña</th>
+          <th>Falta</th>
+          <th>Pago</th>
+          <th>Delivery</th>
+          <th>Colaborador</th>
+          <th>Estado</th>
+          <th>Fecha. Vencimiento</th>
+          <th>Entregado Proveedor</th>
+        </tr>
+      </tfoot>
+      <tbody *ngIf="resultados_busqueda[0]">
+          <tr *ngFor="let item of resultados_busqueda; ">
+            <td class="has-text-centered">{{ item.nro_protocolo }}</td>
+            <td class="has-text-centered">{{ item.fecha }}</td>
+            <td class="has-text-centered">
+              <div class="block" style="display: flex;flex-direction: row; align-items: center; border: none; vertical-align: middle;">
+                <button class="button is-primary" (click)="setActualItem(item.nro_protocolo); setModal1()">
+                  <i class="fas fa-address-card" aria-hidden="true"></i>
+                </button>
+                <button class="button is-link" (click)="setActualItem(item.nro_protocolo);setModal2()">
+                  <i class="fas fa-edit" aria-hidden="true"></i>
+                </button>
+                <button class="button is-warning" (click)="setActualItem(item.nro_protocolo); descargarProtocolo()">
+                  <i class="fas fa-file-download" aria-hidden="true"></i>
+                </button>
+                <button class="button is-danger" (click)="deleteProtocolo(item.nro_protocolo, selectBuscar, criterioBuscar)">
+                  <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                </button>
+              </div>
+            </td>
+            <td class="has-text-centered">{{ item.servicio }}</td>
+            <td class="has-text-centered">${{ item.costo_proveedor }}</td>
+            <td class="has-text-centered">${{ item.deposito }}</td>
+            <td class="has-text-centered">${{ item.costo }}</td>
+            <td class="has-text-centered">${{ item.senia }}</td>
+            <td class="has-text-centered">${{ item.falta_abonar }}</td>
+            <td class="has-text-centered" [ngClass]="{'has-background-success': item.pagado == 'Si', 'has-background-danger has-text-white': item.pagado == 'No'}">{{ item.pagado }}</td>
+            <td class="has-text-centered" [ngClass]="{'has-background-success': item.delivery == 'Si', 'has-background-danger has-text-white': item.delivery == 'No'}">{{ item.delivery }}</td>
+            <td class="has-text-centered">{{ item.colaborador }}</td>
+            <td class="has-text-centered" [ngClass]="{'has-background-success': item.estado == 'Abierto', 'has-background-danger has-text-white': item.estado == 'Cerrado', 'has-background-warning': item.estado == 'Suspendido','has-background-orange has-text-white': item.estado == 'En proceso', 'has-background-info has-text-white': item.estado == 'Presupuesto'}">{{ item.estado }}</td>
+            <td class="has-text-centered">{{ item.fecha_vencimiento }}</td>
+            <td class="has-text-centered" [ngClass]="{'has-background-success': item.entregado_prov == 'Si', 'has-background-danger has-text-white': item.entregado_prov == 'No'}">{{ item.entregado_prov }}</td>
+          </tr>
+      </tbody>
+    </table>
+    
+  </div>
+  <nav class="navbar is-fixed-bottom" *ngIf="verProtocolos">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-item">
+      <table class="table is-bordered my-4 nav-bottom" >
+        <thead>
+          <tr>
+            <th class="has-text-centered">N°Prot</th>
+            <th class="has-text-centered">Fecha</th>
+            <th class="has-text-centered">Cliente</th>
+            <th class="has-text-centered">Servicio</th>
+            <th class="has-text-centered">Costo Prov</th>
+            <th class="has-text-centered">Deposito</th>
+            <th class="has-text-centered">Costo</th>
+            <th class="has-text-centered">Seña</th>
+            <th class="has-text-centered">Falta</th>
+            <th class="has-text-centered">Pago</th>
+            <th class="has-text-centered">Colab</th>
+            <th class="has-text-centered">Deliv</th>
+            
+            <th class="has-text-centered">Estado</th>
+            <th class="has-text-centered">Fcha. Vto</th>
+            <th class="has-text-centered">Entregado</th>
+          </tr>
+        </thead>
+        
+      </table>
+      
+    </div>
+    <div class="navbar-end">
+    </div>
+  </nav>
+</div>
+
+

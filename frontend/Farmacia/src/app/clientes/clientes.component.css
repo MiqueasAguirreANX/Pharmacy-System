@@ -1,0 +1,19 @@
+@media screen and (min-width: 500px) {
+    .navbar, .navbar-end, .navbar-menu, .navbar-start {
+        display: flex!important;
+        flex-grow: 1;
+        flex-shrink: 0;
+        
+    }
+
+    .navbar-end {
+        justify-content: flex-end;
+        margin-left: auto;
+    }
+    .card-header {
+        background: transparent!important;
+        box-shadow: none!important;
+        border: none!important;
+        display: block;
+    }
+}
